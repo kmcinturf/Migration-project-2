@@ -1,7 +1,3 @@
-// const CSVPATH_BLUEFIN_WHALES = "resources/blue_fin_whales_gps.csv"
-// const PROMISE_RESPONSE = d3.csv(CSVPATH_BLUEFIN_WHALES)
-// console.log(PROMISE_RESPONSE)
-
 var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
   maxZoom: 18,
@@ -17,18 +13,44 @@ var myMap = L.map("map", {
   layers: [lightmap]
 });
 
+d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
+  // console.log("data: ", data);
+
+  var whale_id_filter = data.map(x => x.DeploymentID);
+
+  var id_filter = whale_id_filter.filter((x, index) =>{
+      return whale_id_filter.indexOf(x) === index;
+  });
+
+  var whale_id = d3.select("#selDataset");
+
+  // var selected = true
+  var test = id_filter.map((id) => {
+      whale_id
+        .append("option")
+        .property("value", id)
+        .text(id);
+    });
+
+    // if (selected) {
+    //   whale_id.property("selected")
+    // }
+});
+
 var legend = L.control({position: 'topright'});
 legend.onAdd = function (myMap) {
     var div = L.DomUtil.create('div', 'selDataset');
-    div.innerHTML = '<select id = selDataset><option> </option></select>;';
+    div.innerHTML = '<select id = selDataset></select>;';
     div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
     return div;
 };
 legend.addTo(myMap);
 
-var dropdown = d3.select("#selDataset").on("change", createFeatures);
+var dropdown = d3.select("#selDataset").on("change", createFeatures, createMap);
 
 function createFeatures(whale_id_filter) {
+
+  // createFeatures(whale_id_filter).preventdefault()
 
   if (whale_id_filter == "2014CA-MK10-05644") {
     var id_selected = "2014CA-MK10-05644"
@@ -43,9 +65,8 @@ function createFeatures(whale_id_filter) {
 
   d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
 
-
     var whale_ids = data.filter(row => row.DeploymentID == id_selected);
-    console.log("whale_ids: ",whale_ids)
+    // console.log("whale_ids: ",whale_ids)
 
     var whales = whale_ids.map(whale => L.circleMarker([whale.latitude,whale.longitude], {
       color: "red",
@@ -53,73 +74,57 @@ function createFeatures(whale_id_filter) {
       fillOpacity: 0.75,
       radius: 1})
       .bindPopup("whale-marker"))
+      // .addOverlay(whales)
 
-    whales=L.layerGroup(whales)
+    var whale_markers = L.layerGroup(whales)
+    // var whale_markers = L.addOverlay(whales)
 
     // Sending our whales layer to the createMap function
-    createMap(whales);
+    createMap(whale_markers);
   });
 };
 
-function createMap(whales) {
+function createMap(whale_markers) {
 
-  // whales.html("");
-
-  // Define streetmap and darkmap layers
-  var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    maxZoom: 18,
-    id: "light-v10",
-    accessToken: API_KEY
-  });
-
+  
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
     "Light Map": lightmap
     // "Dark Map": darkmap
   };
 
-  // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    "Whales": whales
+    "Whales" : whale_markers
   };
 
-  // // Create our map, giving it the streetmap and earthquakes layers to display on load
-  // var myMap = L.map("map", {
-  //   center: [
-  //     37.7749, -122.4194
-  //   ],
-  //   zoom: 5,
-  //   layers: [lightmap, whales]
-  // });
   L.control.layers(null, overlayMaps).addTo(myMap);
 };
 
-d3.csv("resources/blue_fin_whales_gps.csv").then(createFeatures); 
+// d3.csv("resources/blue_fin_whales_gps.csv").then(createFeatures); 
 
-d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
-  console.log("data: ", data);
+// d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
+//   // console.log("data: ", data);
 
-  var whale_id_filter = data.map(x => x.DeploymentID);
+//   var whale_id_filter = data.map(x => x.DeploymentID);
 
-  var id_filter = whale_id_filter.filter((x, index) =>{
-      return whale_id_filter.indexOf(x) === index;
-  });
+//   var id_filter = whale_id_filter.filter((x, index) =>{
+//       return whale_id_filter.indexOf(x) === index;
+//   });
 
-  var whale_id = d3.select("#selDataset");
+//   var whale_id = d3.select("#selDataset");
 
-  var selected = false
-  var test = id_filter.map((id) => {
-      whale_id
-        .append("option")
-        .property("value", id)
-        .text(id);
-    });
+//   // var selected = true
+//   var test = id_filter.map((id) => {
+//       whale_id
+//         .append("option")
+//         .property("value", id)
+//         .text(id);
+//     });
 
-    if (!selected) {
-      whale_id.property("selected")
-    }
-});
+//     // if (selected) {
+//     //   whale_id.property("selected")
+//     // }
+// });
 // {
   // console.log("data: ", data);
 
