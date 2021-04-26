@@ -1,4 +1,9 @@
- 
+d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
+  var lat = data.map(row => row.latitude)
+  var long = data.map(row => row.longitude)
+  var time = data.map(row => row.timestamp_gmt)
+   }) 
+
 var blue_fin = {
   
   "type": "Feature",
@@ -1969,10 +1974,8 @@ var blue_fin = {
 };
 
 
+
+
+
 var demoTracks = [blue_fin];
-d3.csv("resources/blue_fin_whales_gps.csv").then((data) => {
-  var lat = data.map(row => row.latitude)
-  var long = data.map(row => row.longitude)
-  var time = data.map(row => row.timestamp_gmt)
-  
-   })
+
