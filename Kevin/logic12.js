@@ -72,9 +72,11 @@ function createFeatures(whale_id_filter) {
       color: "red",
       fillColor: (whale.timestamp_gmt),
       fillOpacity: 0.75,
-      radius: 3})
+      radius: 1})
       .bindPopup("whale-marker"))
       // .addOverlay(whales)
+      console.log(whales)
+      console.log(whale_markers)
 
     var whale_markers = L.layerGroup(whales)
     // var whale_markers = L.addOverlay(whales)
