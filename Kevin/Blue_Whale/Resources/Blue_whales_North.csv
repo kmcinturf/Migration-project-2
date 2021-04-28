@@ -1,4 +1,4 @@
-event-id,visible,timestamp,location-long,location-lat,argos:best-level,argos:calcul-freq,argos:iq,argos:lat1,argos:lat2,argos:lc,argos:lon1,argos:lon2,argos:nb-mes,argos:nb-mes-120,manually-marked-outlier,sensor-type,individual-taxon-canonical-name,tag-local-identifier,individualID,study-name
+event-id,visible,timestamp,long,lat,argos:best-level,argos:calcul-freq,argos:iq,argos:lat1,argos:lat2,argos:lc,argos:lon1,argos:lon2,argos:nb-mes,argos:nb-mes-120,manually-marked-outlier,sensor-type,individual-taxon-canonical-name,tag-local-identifier,individualID,study-name
 9018011221,TRUE,13:00.0,-122.433,37.058,,,,37.058,,,-122.433,,,,,gps,Balaenoptera musculus,1993CA-ST6-00834,1993CA-Bmu-00834,Blue whales Eastern North Pacific 1993-2008 - Argos Data
 9018011222,TRUE,20:00.0,-122.412,37.012,,,,37.012,,,-122.412,,,,,gps,Balaenoptera musculus,1993CA-ST6-10823,1993CA-Bmu-10823,Blue whales Eastern North Pacific 1993-2008 - Argos Data
 9018011223,TRUE,54:00.0,-122.415,37.022,,,,37.022,,,-122.415,,,,,gps,Balaenoptera musculus,1993CA-ST6-10833,1993CA-Bmu-10833,Blue whales Eastern North Pacific 1993-2008 - Argos Data
