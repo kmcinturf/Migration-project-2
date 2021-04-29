@@ -73,7 +73,7 @@ function createFeatures(Blue_Blue_whale_id_filter) {
       fillColor: "blue",
       fillOpacity: 0.75,
       radius: 1})
-      .bindPopup("whale-marker"))
+      .bindPopup(`${blue.lat},${blue.long}`))
       // .addOverlay(whales)
       console.log(Blue_whales)
       console.log(whale_markers2)
