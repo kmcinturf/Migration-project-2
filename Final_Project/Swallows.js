@@ -58,17 +58,26 @@ function createFeatures(humming_filter) {
     var swallow1 = this.value
   }
 
+  function getValue(x) {
+    if(x === "H988") {return "OrangeRed"}
+    if(x === "H982") {return "Peru"}
+    if(x === "H980") {return "Tomato"}
+
+ }
+
   d3.csv("data/Swallow.csv").then((humming) => {
 
     var swallow_ids = humming.filter(row => row.swallow_id == swallow1);
     // console.log("Blue_whale_ids: ",Blue_whale_ids)
+    
+   
 
     var humming_bird = swallow_ids.map(humming => L.circleMarker([humming.lat,humming.long], {
-      color: "orange",
-      fillColor: "orange",
+      color: getValue(humming.swallow_id),
+      fillColor: "black",
       fillOpacity: 0.75,
-      radius: 1})
-      .bindPopup("whale-marker"))
+      radius: 3})
+      .bindPopup(`${humming.lat},${humming.long}`))
       // .addOverlay(whales)
       console.log(humming_bird)
       console.log(humming_markers)
@@ -101,3 +110,29 @@ function createMap(humming_markers, swallow_ids) {
   
   test.addTo(myMap);
 };
+
+var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (map) {
+    
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = ["H988", "H982","H980"],
+        labels = ['<strong> Earthquake Depth </strong>'],
+        labels = [];
+        function getValue(x) {
+          if(x === "H988") {return "OrangeRed"}
+          if(x === "H982") {return "Peru"}
+          if(x === "H980") {return "Tomato"}
+     
+       }
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML += '<strong> Swallow ID </strong>'
+        div.innerHTML +=
+            '<i style="background:' + getValue(grades[i]) + '"></i> ' +
+            grades[i] + '<br>';
+    }
+
+    return div;
+};
+legend.addTo(myMap);
