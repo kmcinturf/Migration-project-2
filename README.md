@@ -1,4 +1,4 @@
-## Project 2: West Coast Animal Migratory Paths
+## Project TWO: West Coast Animal Migratory Paths
 
 ![NPLCC](images/nplcc-logo2-with-map.png)
 
