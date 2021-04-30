@@ -71,11 +71,11 @@ function createFeatures(humming_filter) {
     // console.log("Blue_whale_ids: ",Blue_whale_ids)
 
     var humming_bird = swallow_ids.map(humming => L.circleMarker([humming.lat,humming.long], {
-      color: "orange",
-      fillColor: "orange",
+      color: getValue(humming.swallow_id),
+      fillColor: "black",
       fillOpacity: 0.75,
-      radius: 1})
-      .bindPopup("whale-marker"))
+      radius: 3})
+      .bindPopup(`${humming.lat},${humming.long}`))
       // .addOverlay(whales)
       console.log(humming_bird)
       console.log(humming_markers)
