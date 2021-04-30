@@ -7,9 +7,9 @@ var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{
 
 var myMap = L.map("map", {
   center: [
-    34.0522, -118.2437
+    -15.0522, -53.2437
   ],
-  zoom: 7,
+  zoom: 4,
   layers: [lightmap]
 });
 
