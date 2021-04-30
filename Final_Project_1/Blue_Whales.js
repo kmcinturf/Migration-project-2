@@ -62,17 +62,25 @@ function createFeatures(Blue_Blue_whale_id_filter) {
     var blue_id = this.value
   }
 
+  function getValue(x) {
+    if(x === "2005CA-Bmu-02082") {return "blue"}
+    if(x === "2005CA-Bmu-01388") {return "DodgerBlue"}
+    if(x === "2005CA-Bmu-00845") {return "MidnightBlue"}
+    if(x === "2005CA-Bmu-01390") {return "lightblue"}
+
+ }
+
   d3.csv("data/Blue_whales_North.csv").then((data_blue) => {
 
     var Blue_whale_ids = data_blue.filter(row => row.individualID == blue_id);
     // console.log("Blue_whale_ids: ",Blue_whale_ids)
 
     var Blue_whales = Blue_whale_ids.map(blue => L.circleMarker([blue.lat,blue.long], {
-      color: "blue",
-      fillColor: "blue",
+      color: getValue(blue.individualID),
+      fillColor: "white",
       fillOpacity: 0.75,
-      radius: 1})
-      .bindPopup("whale-marker"))
+      radius: 3})
+      .bindPopup(`${blue.lat},${blue.long}`))
       // .addOverlay(whales)
       console.log(Blue_whales)
       console.log(whale_markers2)
@@ -105,3 +113,30 @@ console.log(Blue_whale_id)
   
   test.addTo(myMap);
 };
+var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (map) {
+    
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = ["2005CA-Bmu-02082", "2005CA-Bmu-01388","2005CA-Bmu-00845","2005CA-Bmu-01390"],
+        labels = ['<strong> </strong>'],
+        labels = [];
+        function getValue(x) {
+          if(x === "2005CA-Bmu-02082") {return "blue"}
+          if(x === "2005CA-Bmu-01388") {return "DodgerBlue"}
+          if(x === "2005CA-Bmu-00845") {return "MidnightBlue"}
+          if(x === "2005CA-Bmu-01390") {return "lightblue"}
+  
+     
+       }
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML += '<strong> Bluefin Whale ID </strong>'
+        div.innerHTML +=
+            '<i style="background:' + getValue(grades[i]) + '"></i> ' +
+            grades[i] + '<br>';
+    }
+
+    return div;
+};
+legend.addTo(myMap);

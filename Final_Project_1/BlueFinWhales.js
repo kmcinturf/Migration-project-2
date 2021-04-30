@@ -59,17 +59,23 @@ function createFeatures(id_filter) {
     var id_selected = this.value
     console.log("id_selected: ", id_selected);
   }
+  function getValue(x) {
+    if(x === "2014CA-MK10-05803") {return "firebrick"}
+    if(x === "2015CA-MK10-05650") {return "indianred"}
+    if(x === "2015CA-MK10-04177") {return "maroon"}
+
+ }
 
   d3.csv("data/blue_fin_whales.csv").then((data) => {
 
     var whale_ids = data.filter(row => row.DeploymentID == id_selected);
 
     var whales = whale_ids.map(whale => L.circleMarker([whale.latitude,whale.longitude], {
-      color: "red",
-      fillColor: (whale.timestamp_gmt),
+      color: getValue(whale.DeploymentID),
+      fillColor: "getValue(whale.DeploymentID)",
       fillOpacity: 0.75,
       radius: 1})
-      .bindPopup("whale-marker"))
+      .bindPopup(`${whale.latitude},${whale.longitude}`))
       // .addOverlay(whales)
 
     // var whale_markers = L.addOverlay(whales)
@@ -96,3 +102,29 @@ function createMap(whales, whale_id) {
 
   L.control.layers(null, overlayMaps).addTo(myMap);
 };
+
+var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (map) {
+    
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = ["2015CA-MK10-04177", "2015CA-MK10-05650","2014CA-MK10-05803"],
+        labels = ['<strong> Earthquake Depth </strong>'],
+        labels = [];
+        function getValue(x) {
+          if(x === "2014CA-MK10-05803") {return "firebrick"}
+          if(x === "2015CA-MK10-05650") {return "indianred"}
+          if(x === "2015CA-MK10-04177") {return "maroon"}
+     
+       }
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML += '<strong> Bluefin Whale ID </strong>'
+        div.innerHTML +=
+            '<i style="background:' + getValue(grades[i]) + '"></i> ' +
+            grades[i] + '<br>';
+    }
+
+    return div;
+};
+legend.addTo(myMap);
