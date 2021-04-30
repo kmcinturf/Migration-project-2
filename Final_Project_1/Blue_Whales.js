@@ -13,7 +13,7 @@ var myMap = L.map("map", {
   layers: [lightmap]
 });
 
-d3.csv("data/Blue_whales_North.csv").then((blue) => {
+d3.csv("data/Blue_whale_data1.csv").then((blue) => {
   // console.log("data_blue: ", data_blue);
 
   var blue_id_filter = blue.map(x => x.individualID);
