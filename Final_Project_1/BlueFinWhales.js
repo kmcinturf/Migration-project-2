@@ -33,12 +33,10 @@ d3.csv("data/blue_fin_whales.csv").then((data) => {
     createFeatures(id_filter[0]);
 });
 
-// var dropdown = d3.select("#selDataset").on("change", createFeatures(id_filter[0]));
 var legend = L.control({position: 'topright'});
 
 legend.onAdd = function (myMap) {
     var div = L.DomUtil.create('div', 'selDataset');
-    // div.innerHTML = '<select id = selDataset><option>Select Whale ID</option></select>;';
     div.innerHTML = '<select id = selDataset></select>;';
     div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
     return div;
@@ -76,9 +74,6 @@ function createFeatures(id_filter) {
       fillOpacity: 0.75,
       radius: 1})
       .bindPopup(`${whale.latitude},${whale.longitude}`))
-      // .addOverlay(whales)
-
-    // var whale_markers = L.addOverlay(whales)
 
     // Sending our whales layer to the createMap function
     createMap(whales, id_selected );
@@ -103,7 +98,7 @@ function createMap(whales, whale_id) {
   L.control.layers(null, overlayMaps).addTo(myMap);
 };
 
-var legend = L.control({position: 'bottomright'});
+var legend = L.control({position: 'topleft' });
 
   legend.onAdd = function (map) {
     
@@ -117,6 +112,7 @@ var legend = L.control({position: 'bottomright'});
           if(x === "2015CA-MK10-04177") {return "maroon"}
      
        }
+
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML += '<strong> Bluefin Whale ID </strong>'

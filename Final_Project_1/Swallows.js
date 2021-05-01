@@ -32,6 +32,7 @@ d3.csv("data/Swallow.csv").then((humming) => {
         .text(id);
     });
 
+    createFeatures(swallow_filter[0]);
     
 });
 
@@ -49,8 +50,8 @@ var dropdown = d3.select("#selDataset").on("change", createFeatures);
 function createFeatures(humming_filter) {
 
 
-  if (humming_filter == "26570") {
-    var swallow1 = "26570"
+  if (humming_filter == "H988") {
+    var swallow1 = "H988"
   }
   
   else{
@@ -68,7 +69,6 @@ function createFeatures(humming_filter) {
   d3.csv("data/Swallow.csv").then((humming) => {
 
     var swallow_ids = humming.filter(row => row.swallow_id == swallow1);
-    // console.log("Blue_whale_ids: ",Blue_whale_ids)
 
     var humming_bird = swallow_ids.map(humming => L.circleMarker([humming.lat,humming.long], {
       color: getValue(humming.swallow_id),
@@ -76,12 +76,10 @@ function createFeatures(humming_filter) {
       fillOpacity: 0.75,
       radius: 3})
       .bindPopup(`${humming.lat},${humming.long}`))
-      // .addOverlay(whales)
       console.log(humming_bird)
       console.log(humming_markers)
 
     var humming_markers = L.layerGroup(humming_bird)
-    // var whale_markers = L.addOverlay(whales)
 
     // Sending our whales layer to the createMap function
     createMap(humming_markers, swallow1);
@@ -94,22 +92,19 @@ function createMap(humming_markers, swallow_ids) {
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
     "Light Map": lightmap
-  
-    // "Dark Map": darkmap
   };
 
   var overlayMaps = {
 
   };
   overlayMaps[swallow_ids] = humming_markers
-  // L.control.remove();
   var test = L.control.layers(null, overlayMaps)
   test.remove(myMap)
   
   test.addTo(myMap);
 };
 
-var legend = L.control({position: 'bottomright'});
+var legend = L.control({position: 'topleft'});
 
   legend.onAdd = function (map) {
     
@@ -123,6 +118,7 @@ var legend = L.control({position: 'bottomright'});
           if(x === "H980") {return "Tomato"}
      
        }
+
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML += '<strong> Swallow ID </strong>'
