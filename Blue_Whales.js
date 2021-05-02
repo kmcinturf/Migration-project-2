@@ -7,14 +7,13 @@ var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{
 
 var myMap = L.map("map", {
   center: [
-    34.0522, -118.2437
+    36.2127, -121.1260
   ],
-  zoom: 7,
+  zoom: 6,
   layers: [lightmap]
 });
 
 d3.csv("data/Blue_whale_data1.csv").then((blue) => {
-  // console.log("data_blue: ", data_blue);
 
   var blue_id_filter = blue.map(x => x.individualID);
 
@@ -24,7 +23,6 @@ d3.csv("data/Blue_whale_data1.csv").then((blue) => {
 
   var blue_id = d3.select("#selDataset");
 
-  // var selected = true
   var test = blue_filter.map((id) => {
       blue_id
         .append("option")
@@ -32,7 +30,7 @@ d3.csv("data/Blue_whale_data1.csv").then((blue) => {
         .text(id);
     });
 
-    console.log("blue_filter: ", blue_filter)
+    createFeatures(blue_filter[0]);
 
 });
 
@@ -49,14 +47,9 @@ var dropdown = d3.select("#selDataset").on("change", createFeatures);
 
 function createFeatures(Blue_Blue_whale_id_filter) {
 
-  // createFeatures(Blue_Blue_whale_id_filter).preventdefault()
-
-  if (Blue_Blue_whale_id_filter == "1993CA-Bmu-00834") {
-    var blue_id = "1993CA-Bmu-00834"
+  if (Blue_Blue_whale_id_filter == "2005CA-Bmu-02082") {
+    var blue_id = "2005CA-Bmu-02082"
   }
-  // else if (Blue_Blue_whale_id_filter === undefined){
-  //   var blue_id = "1993CA-Bmu-00834"
-  // }
   else{
   console.log(this.value);
     var blue_id = this.value
@@ -73,7 +66,6 @@ function createFeatures(Blue_Blue_whale_id_filter) {
   d3.csv("data/Blue_whales_North.csv").then((data_blue) => {
 
     var Blue_whale_ids = data_blue.filter(row => row.individualID == blue_id);
-    // console.log("Blue_whale_ids: ",Blue_whale_ids)
 
     var Blue_whales = Blue_whale_ids.map(blue => L.circleMarker([blue.lat,blue.long], {
       color: getValue(blue.individualID),
@@ -81,12 +73,10 @@ function createFeatures(Blue_Blue_whale_id_filter) {
       fillOpacity: 0.75,
       radius: 3})
       .bindPopup(`${blue.lat},${blue.long}`))
-      // .addOverlay(whales)
       console.log(Blue_whales)
       console.log(whale_markers2)
 
     var whale_markers2 = L.layerGroup(Blue_whales)
-    // var whale_markers = L.addOverlay(whales)
 
     // Sending our whales layer to the createMap function
     createMap(whale_markers2, blue_id);
@@ -99,9 +89,7 @@ console.log(Blue_whale_id)
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
     "Light Map": lightmap
-  
-    // "Dark Map": darkmap
-  };
+    };
 
   var overlayMaps = {
 
@@ -113,19 +101,20 @@ console.log(Blue_whale_id)
   
   test.addTo(myMap);
 };
-var legend = L.control({position: 'bottomright'});
+
+var legend = L.control({position: 'topleft'});
 
   legend.onAdd = function (map) {
     
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = ["2005CA-Bmu-02082", "2005CA-Bmu-01388","2005CA-Bmu-00845","2005CA-Bmu-01390"],
+        grades = ["2005CA-Bmu-02082", "2005CA-Bmu-01388","2005CA-Bmu-00845"],
         labels = ['<strong> </strong>'],
         labels = [];
         function getValue(x) {
           if(x === "2005CA-Bmu-02082") {return "blue"}
           if(x === "2005CA-Bmu-01388") {return "DodgerBlue"}
           if(x === "2005CA-Bmu-00845") {return "MidnightBlue"}
-          if(x === "2005CA-Bmu-01390") {return "lightblue"}
+          // if(x === "2005CA-Bmu-01390") {return "lightblue"}
   
      
        }
